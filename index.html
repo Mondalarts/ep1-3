@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PSR Anime - Episodes 1-3</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #9c27b0;
+    }
+    .episode-list {
+      margin-top: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .episode-item {
+      background: #1f1f1f;
+      margin: 10px auto;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .download-btn {
+      background-color: #9c27b0;
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .back-btn {
+      margin-top: 20px;
+      color: #9c27b0;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: bold;
+    }
+    video {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+  <script type="module">
+    // Import Firebase libraries (assumes you are using ES Modules environment)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDV0x3hXbyTLXwFytOuPgK7lNMnv_PonfA",
+      authDomain: "ep13-85d3a.firebaseapp.com",
+      projectId: "ep13-85d3a",
+      storageBucket: "ep13-85d3a.appspot.com",
+      messagingSenderId: "92916303653",
+      appId: "1:92916303653:web:5f06a01139ea688de9fccc",
+      measurementId: "G-59E5TBGMG1"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    // Function to update video src dynamically from Firebase Storage
+    async function setVideoSources() {
+      const episodes = [
+        { id: "video1", firebasePath: "videos/Demon_Slayer_S4_Ep_1.mp4" },
+        { id: "video2", firebasePath: "videos/Demon_Slayer_S4_Ep_2.mp4" },
+        { id: "video3", firebasePath: "videos/Demon_Slayer_S4_Ep_3.mp4" }
+      ];
+
+      for (const ep of episodes) {
+        const videoRef = ref(storage, ep.firebasePath);
+        const url = await getDownloadURL(videoRef);
+        document.getElementById(ep.id).src = url;
+        document.getElementById(`${ep.id}-download`).href = url;
+      }
+    }
+
+    window.onload = setVideoSources;
+  </script>
+</head>
+<body>
+  <h1>PSR Anime</h1>
+  <h2>Episodes 1-3</h2>
+  <div class="episode-list">
+
+    <div class="episode-item">
+      <span>Episode 1</span>
+      <video id="video1" controls></video>
+      <a id="video1-download" class="download-btn" download>Download</a>
+    </div>
+
+    <div class="episode-item">
+      <span>Episode 2</span>
+      <video id="video2" controls></video>
+      <a id="video2-download" class="download-btn" download>Download</a>
+    </div>
+
+    <div class="episode-item">
+      <span>Episode 3</span>
+      <video id="video3" controls></video>
+      <a id="video3-download" class="download-btn" download>Download</a>
+    </div>
+
+  </div>
+  <a href="index.html" class="back-btn">&larr; Back to Main Page</a>
+</body>
+</html>
